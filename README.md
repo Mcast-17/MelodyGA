@@ -96,7 +96,7 @@ I parametri principali sono definiti nel file `config.py`.
 ## Struttura del Progetto
 
 ```text
-AlgoritmiGenetici/
+MelodyGA/
 │
 ├── config.py
 ├── nota.py
