@@ -1,49 +1,184 @@
-## Crossover – Algoritmo genetico
+# 🔀 Modulo Crossover
 
-## Descrizione:
-Il modulo "crossover.py" implementa l'operatore di crossover, una delle operazioni fondamentali degli algoritmi genetici.
-Il suo compito è combinare due individui della popolazione, chiamati genitori, per generare nuove soluzioni, chiamate figli o discendenti.
-Nel progetto, gli individui sono rappresentati da sequenze di note musicali, ovvero melodie.
+## Descrizione
 
-## Metodo utilizzato: Single-Point Crossover:
-Il progetto utilizza il crossover a punto singolo (Single-Point Crossover).
-Questa tecnica prevede la scelta casuale di un punto di taglio all'interno delle due sequenze musicali.
-Il procedimento si articola nelle seguenti fasi:
+Il modulo `crossover.py` implementa l'operatore genetico di **crossover**, una delle componenti fondamentali degli algoritmi genetici.
+
+Il suo obiettivo è combinare le caratteristiche di due individui della popolazione, chiamati **genitori**, per generare nuove soluzioni, chiamate **figli** o **discendenti**.
+
+Nel progetto, ogni individuo è rappresentato da una melodia composta da una sequenza ordinata di note musicali. Il crossover consente di creare nuove melodie combinando porzioni delle melodie dei genitori.
+
+---
+
+# Metodo Utilizzato: Single-Point Crossover
+
+Il progetto utilizza la tecnica del **crossover a punto singolo** (*Single-Point Crossover*).
+
+Questo metodo prevede la scelta casuale di un punto di taglio all'interno delle due melodie genitrici.
+
+## Procedura
+
 1. Vengono selezionate due melodie genitrici.
 2. Viene individuato casualmente un punto di taglio.
-3. Il primo figlio viene creato combinando la parte iniziale del primo genitore con la parte finale del secondo.
-4. Il secondo figlio viene creato combinando la parte iniziale del secondo genitore con la parte finale del primo.
+3. Il primo figlio viene creato combinando:
+   - la parte iniziale del primo genitore;
+   - la parte finale del secondo genitore.
+4. Il secondo figlio viene creato combinando:
+   - la parte iniziale del secondo genitore;
+   - la parte finale del primo genitore.
 5. Le nuove melodie vengono restituite come risultato dell'operazione.
 
-## Rappresentazione delle melodie:
-Ogni melodia è composta da oggetti della classe "Nota".
-Ogni nota contiene tre caratteristiche:
-- Altezza: identifica la nota musicale.
-- Ottava: indica la posizione della nota nell'estensione musicale.
-- Durata: rappresenta il tempo di esecuzione della nota.
-Durante il crossover vengono trasferite queste caratteristiche dai genitori ai figli.
+---
 
-## Vincoli implementati:
+# Esempio
+
+## Genitore 1
+
+```text
+Do Re Mi | Fa Sol La Si
+```
+
+## Genitore 2
+
+```text
+La Sol Fa | Mi Re Do Si
+```
+
+## Punto di taglio
+
+```text
+           ↑
+```
+
+## Figlio 1
+
+```text
+Do Re Mi | Mi Re Do Si
+```
+
+## Figlio 2
+
+```text
+La Sol Fa | Fa Sol La Si
+```
+
+In questo modo i figli ereditano caratteristiche da entrambi i genitori.
+
+---
+
+# Rappresentazione delle Melodie
+
+Ogni melodia è composta da oggetti della classe `Nota`.
+
+Ogni nota possiede tre proprietà fondamentali:
+
+- **Altezza**: identifica la nota musicale.
+- **Ottava**: indica il registro musicale della nota.
+- **Durata**: rappresenta il tempo di esecuzione della nota.
+
+Durante il crossover queste informazioni vengono trasferite dai genitori ai nuovi individui.
+
+---
+
+# Vincoli Implementati
+
 Per garantire la corretta esecuzione dell'operazione, il modulo verifica che:
+
 - Le due melodie abbiano la stessa lunghezza.
 - Entrambe contengano almeno 16 note.
-- Il punto di taglio sia compreso tra la prima e l'ultima posizione della sequenza.
-Questi controlli permettono di mantenere la struttura delle melodie generate.
+- Il punto di taglio sia compreso tra il primo e l'ultimo elemento della sequenza.
 
-## Struttura del modulo:
-La classe "Crossover" contiene il metodo:
-- "incrocia()": riceve due melodie genitrici, esegue il crossover a punto singolo e restituisce due nuovi individui.
-Il metodo utilizza la libreria standard "random" per individuare casualmente il punto di taglio.
+Questi controlli consentono di mantenere la coerenza strutturale delle melodie generate.
 
-## Tecnologie utilizzate:
-- Python
-- Modulo standard "random"
-- Classe "Nota" per la rappresentazione delle note.
-- Classe "Melodia" per la gestione delle sequenze musicali.
-- Modulo "config.py" per il recupero dei vincoli del progetto.
+---
 
-## Integrazione nell'algoritmo genetico:
-Il crossover viene eseguito dopo la fase di selezione.
-Le melodie selezionate vengono utilizzate come genitori per generare nuovi individui, che potranno successivamente essere sottoposti a mutazione.
-I figli potranno quindi essere valutati nuovamente attraverso la funzione di fitness.
-L'obiettivo è combinare caratteristiche di melodie differenti per ottenere nuove soluzioni musicali.
+# Struttura del Modulo
+
+La classe `Crossover` mette a disposizione il seguente metodo:
+
+### `incrocia()`
+
+Riceve due melodie genitrici, esegue il crossover a punto singolo e restituisce due nuove melodie figlie.
+
+Il metodo utilizza il modulo standard `random` per determinare casualmente il punto di taglio.
+
+---
+
+# Parametri Coinvolti
+
+L'operazione utilizza:
+
+- Primo genitore.
+- Secondo genitore.
+- Punto di crossover.
+- Lunghezza delle melodie.
+- Vincoli definiti nel file `config.py`.
+
+---
+
+# Tecnologie Utilizzate
+
+- Python 3
+- Modulo standard `random`
+- Classe `Nota`
+- Classe `Melodia`
+- File di configurazione `config.py`
+
+---
+
+# Integrazione nell'Algoritmo Genetico
+
+Il crossover viene eseguito immediatamente dopo la fase di selezione.
+
+Il flusso generale dell'algoritmo è il seguente:
+
+```text
+Selezione
+      ↓
+Crossover
+      ↓
+Mutazione
+      ↓
+Valutazione Fitness
+```
+
+Le melodie selezionate come genitori vengono combinate per generare nuovi individui che successivamente possono essere sottoposti a mutazione.
+
+Una volta modificati, i figli vengono valutati nuovamente tramite la funzione di fitness.
+
+---
+
+# Ruolo nel Processo Evolutivo
+
+Il crossover svolge un ruolo fondamentale perché:
+
+- Combina le caratteristiche di individui differenti.
+- Favorisce la produzione di nuove soluzioni.
+- Incrementa la variabilità della popolazione.
+- Permette la trasmissione dei tratti migliori alle generazioni successive.
+- Contribuisce alla ricerca di melodie con fitness più elevata.
+
+Senza crossover, l'evoluzione sarebbe limitata alle sole modifiche introdotte dalla mutazione.
+
+---
+
+# Obiettivo del Modulo
+
+L'obiettivo principale è generare nuove melodie combinando caratteristiche provenienti da individui differenti.
+
+Attraverso il crossover, l'algoritmo può:
+
+- Riutilizzare sequenze musicali promettenti.
+- Creare nuove combinazioni di note.
+- Esplorare regioni diverse dello spazio delle soluzioni.
+- Migliorare progressivamente la qualità della popolazione.
+
+---
+
+# Considerazioni Finali
+
+Il crossover rappresenta il principale meccanismo di ricombinazione genetica dell'algoritmo.
+
+Nel contesto della generazione automatica di melodie, consente di unire frammenti musicali provenienti da individui diversi per produrre nuove sequenze potenzialmente più efficaci rispetto ai genitori.
+
+Combinato con selezione, mutazione ed elitismo, contribuisce all'evoluzione della popolazione verso melodie che soddisfano sempre meglio i criteri musicali definiti dal progetto.
